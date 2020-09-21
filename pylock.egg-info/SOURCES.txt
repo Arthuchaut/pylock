@@ -1,0 +1,9 @@
+README.md
+setup.py
+pylock/__init__.py
+pylock/main.py
+pylock/pylock.py
+pylock.egg-info/PKG-INFO
+pylock.egg-info/SOURCES.txt
+pylock.egg-info/dependency_links.txt
+pylock.egg-info/top_level.txt
