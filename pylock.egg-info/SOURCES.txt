@@ -1,6 +1,7 @@
 README.md
 setup.py
 pylock/__init__.py
+pylock/__main__.py
 pylock/main.py
 pylock/pylock.py
 pylock.egg-info/PKG-INFO
