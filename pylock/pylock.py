@@ -63,8 +63,8 @@ class Pylock:
     def _retr_pkg_deps(pkg: str) -> List[str]:
         stdout, stderr = Pylock._syscall([Pylock._PYTHON_EXE, '-m', 'pip', 'show', pkg])
 
-        # if stderr:
-        #     raise PylockPackageError(stderr)
+        if stderr:
+            raise PylockPackageError(stderr)
 
         requires: List[str] = [_ for _ in re.search(r'Requires: (.)+', stdout) \
             .group()[10:-1] \
