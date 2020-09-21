@@ -26,6 +26,7 @@ class Main:
             freeze: Dict[str, str] = Pylock.retr_freeze()
             req_freeze: Dict[str, str] = Pylock.filter_pkg(req_content, freeze)
             Pylock.lock_req(req_freeze, lock)
+            print(f'Lock file generated in {lock.resolve()}.')
 
         lock()
         
