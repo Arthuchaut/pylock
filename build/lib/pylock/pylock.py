@@ -23,7 +23,12 @@ class Pylock:
 
         for pkg in req:
             deps: List[str] = Pylock._retr_pkg_deps(pkg)
-            req_freeze[pkg.lower()] = freeze[pkg.lower()]
+            try:
+                req_freeze[pkg.lower()] = freeze[pkg.lower()]
+            except:
+                raise PylockPackageError(
+                    f'Unknow package "{pkg}". It may not be installed. '
+                    f'Use "python -m pip install {pkg}" to resolve this issue.')
 
             for dep in deps:
                 req_freeze[dep.lower()] = freeze[dep.lower()]
