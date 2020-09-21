@@ -13,10 +13,6 @@ class Pylock:
         parsed_pkg: str = ''
 
         for pkg, version in req_freeze.items():
-            if re.match(r'git+', pkg):
-                parsed_pkg += f'{pkg}'
-                continue
-                
             parsed_pkg += f'{pkg}=={version}\n'
 
         with lock_path.open('w') as fh:
@@ -26,10 +22,6 @@ class Pylock:
         req_freeze: Dict[str, str] = {}
 
         for pkg in req:
-            if re.match(r'git+', pkg):
-                req_freeze[pkg] = ''
-                continue
-
             deps: List[str] = Pylock._retr_pkg_deps(pkg)
             req_freeze[pkg.lower()] = freeze[pkg.lower()]
 

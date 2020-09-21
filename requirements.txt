@@ -1,2 +1,1 @@
 click
-git+https://github.com/Arthuchaut/pylock.git
