@@ -13,6 +13,10 @@ class Pylock:
         parsed_pkg: str = ''
 
         for pkg, version in req_freeze.items():
+            if re.match(r'git+', pkg):
+                parsed_pkg += f'{pkg}'
+                continue
+                
             parsed_pkg += f'{pkg}=={version}\n'
 
         with lock_path.open('w') as fh:
@@ -22,13 +26,12 @@ class Pylock:
         req_freeze: Dict[str, str] = {}
 
         for pkg in req:
+            if re.match(r'git+', pkg):
+                req_freeze[pkg] = ''
+                continue
+
             deps: List[str] = Pylock._retr_pkg_deps(pkg)
-            try:
-                req_freeze[pkg.lower()] = freeze[pkg.lower()]
-            except:
-                raise PylockPackageError(
-                    f'Unknow package "{pkg}". It may not be installed. '
-                    f'Use "python -m pip install {pkg}" to resolve this issue.')
+            req_freeze[pkg.lower()] = freeze[pkg.lower()]
 
             for dep in deps:
                 req_freeze[dep.lower()] = freeze[dep.lower()]
@@ -63,6 +66,7 @@ class Pylock:
     def _retr_pkg_deps(pkg: str) -> List[str]:
         stdout, stderr = Pylock._syscall([Pylock._PYTHON_EXE, '-m', 'pip', 'show', pkg])
 
+        # Could be raised by an encoding error, but I'm not resolve this issue yet...
         if stderr:
             raise PylockPackageError(stderr)
 
